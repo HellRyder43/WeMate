@@ -196,7 +196,9 @@ public partial class chat : System.Web.UI.Page
     protected string GetWelcomeBanner(string str)
     {
         if (String.IsNullOrWhiteSpace(Server.HtmlEncode(str)))
+        {
             return "Hi, lets start chatting...";
+        }
 
         return str;
     }

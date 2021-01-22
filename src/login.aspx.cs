@@ -35,7 +35,7 @@ public partial class login : System.Web.UI.Page
                 string str = "Select COUNT(*) from UserDatabase where Username = @uname AND Password = @pass";
                 SqlCommand comm = new SqlCommand(str, sqlconn);
                 comm.Parameters.AddWithValue("@uname", Server.HtmlEncode(TextBoxUN.Text));
-                comm.Parameters.AddWithValue("@pass", Server.HtmlEncode(TextBoxPass.Text));
+                comm.Parameters.AddWithValue("@pass", Server.HtmlEncode(EncodePasswordToBase64(TextBoxPass.Text)));
                 sqlconn.Open();
                 int status = Convert.ToInt32(comm.ExecuteScalar());
                 sqlconn.Close();
@@ -72,5 +72,17 @@ public partial class login : System.Web.UI.Page
 
     }
 
-    
+    public static string EncodePasswordToBase64(string password)
+    {
+        try
+        {
+            byte[] encData_byte = System.Text.Encoding.UTF8.GetBytes(password);
+            string encodedData = Convert.ToBase64String(encData_byte);
+            return encodedData;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Error in base64Encode" + ex.Message);
+        }
+    }
 }
